@@ -10,6 +10,11 @@ public class InvoicePdfGenerator
 {
     public byte[] Generate(Order order, IdentityUser? user)
     {
+        if (order.OrderItems == null)
+        {
+            order.OrderItems = Array.Empty<OrderItem>();
+        }
+
         var customerName = user?.UserName ?? order.UserId;
         var customerEmail = user?.Email ?? "N/A";
 
@@ -72,7 +77,7 @@ public class InvoicePdfGenerator
                             header.Cell().Element(CellStyle).AlignRight().Text("Total").SemiBold();
                         });
 
-                        foreach (var item in order.OrderItems ?? Array.Empty<OrderItem>())
+                        foreach (var item in order.OrderItems)
                         {
                             var lineTotal = item.Price * item.Quantity;
 

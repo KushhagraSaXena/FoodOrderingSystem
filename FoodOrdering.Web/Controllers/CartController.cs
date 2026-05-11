@@ -78,6 +78,34 @@ public class CartController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public IActionResult Increase(int id)
+    {
+        var cart = GetCart();
+        var item = cart.FirstOrDefault(c => c.FoodItemId == id);
+
+        if (item != null)
+        {
+            item.Quantity++;
+            SaveCart(cart);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Decrease(int id)
+    {
+        var cart = GetCart();
+        var item = cart.FirstOrDefault(c => c.FoodItemId == id);
+
+        if (item != null)
+        {
+            item.Quantity = Math.Max(1, item.Quantity - 1);
+            SaveCart(cart);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
     private List<CartItem> GetCart()
     {
         var sessionCart =

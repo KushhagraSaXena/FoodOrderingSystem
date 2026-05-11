@@ -34,9 +34,9 @@
     }
     else
     {
-        <div class="card border-0 shadow-sm">
+        <div class="card card-modern">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive table-modern">
                     <table class="table align-middle mb-0">
 
                         <thead class="table-light">
@@ -75,7 +75,15 @@
                                     </td>
 
                                     <td>
-                                        @item.Quantity
+                                        <div class="quantity-control">
+                                            <a asp-action="Decrease"
+                                               asp-route-id="@item.FoodItemId"
+                                               class="btn btn-outline-secondary btn-sm">-</a>
+                                            <span class="fw-semibold">@item.Quantity</span>
+                                            <a asp-action="Increase"
+                                               asp-route-id="@item.FoodItemId"
+                                               class="btn btn-outline-secondary btn-sm">+</a>
+                                        </div>
                                     </td>
 
                                     <td class="fw-semibold">
@@ -102,13 +110,16 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mt-4">
-            <h4 class="fw-bold text-primary mb-3 mb-md-0">
-                Grand Total: ₹ @Model.Sum(x => x.Price * x.Quantity)
-            </h4>
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between mt-4 gap-3">
+            <div class="summary-card">
+                <div class="text-muted">Grand Total</div>
+                <div class="fw-bold text-primary fs-4">
+                    ₹ @Model.Sum(x => x.Price * x.Quantity)
+                </div>
+            </div>
 
             <a asp-action="Checkout"
-               class="btn btn-success btn-lg">
+               class="btn btn-success btn-lg px-5">
                 Checkout
             </a>
         </div>
